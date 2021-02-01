@@ -1,0 +1,5 @@
+div#start_up {
+    background-color: #000000;
+    position:absolute;
+    z-index: 1;
+}
