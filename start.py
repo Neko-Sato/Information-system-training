@@ -1,10 +1,14 @@
+import ssl
 import http.server
-import socketserver
 
-PORT = 8000
-
+PORT = 50194#8000
 Handler = http.server.SimpleHTTPRequestHandler
 
-with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print("serving at port", PORT)
+ctx = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+ctx.load_cert_chain('server.crt', keyfile='server.key')
+ctx.options |= ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1
+
+with http.server.HTTPServer(("", PORT), Handler) as httpd:
+    httpd.socket = ctx.wrap_socket(httpd.socket)
+    print(httpd)
     httpd.serve_forever()
