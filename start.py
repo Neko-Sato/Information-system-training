@@ -10,5 +10,4 @@ ctx.options |= ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1
 
 with http.server.HTTPServer(("", PORT), Handler) as httpd:
     httpd.socket = ctx.wrap_socket(httpd.socket)
-    print(httpd)
     httpd.serve_forever()
